@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      padding: 10px;
+      margin: 8px 0;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background: #28a745;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #218838;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background: #28a745;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome, Farmer!</h2>
+
+  <form action="{{ url_for('dashboard') }}" method="POST">
+    <input type="hidden" name="id" value="{{ 5 }}" >
+    <label for="crop_name">Crop Name:</label>
+    <select name="crop_name" id="crop_name" required>
+      <option value="">--Select Crop--</option>
+      {% for crop in market_prices.keys() %}
+      <option value="{{ crop }}">{{ crop }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="price">Your Price:</label>
+    <input type="number" name="price" id="price" required>
+
+    <label for="quality">Quality:</label>
+    <select name="quality" id="quality" required>
+      <option value="High">High</option>
+      <option value="Medium">Medium</option>
+      <option value="Low">Low</option>
+    </select>
+
+    <button type="submit">Add Crop</button>
+  </form>
+
+  <h3>🌾 Your Crops List</h3>
+  <table>
+    <tr>
+      <th>Crop Name</th>
+      <th>Your Price (₹)</th>
+      <th>Market Price (₹)</th>
+      <th>Status (Profit/Loss)</th>
+      <th>Quality</th>
+      <th>Action</th>
+
+    </tr>
+    {% for crop in crops %}
+    {% if crop.crop_name %}
+    <tr>
+      <td>{{ crop.crop_name }}</td>
+      <td>
+        <input type="number" name="price" value="{{ crop.price }}" form="update-form-{{ crop.id }}" required style="width: 80px;">
+      </td>
+      <td>{{ crop.market_price }}</td>
+      <td>
+        {% if crop.market_price != "N/A" and crop.price %}
+          {% set profit = (crop.market_price | float) - (crop.price | float) %}
+          {% if profit > 0 %}
+            <span style="color: green; font-weight: bold;">Profit (₹{{ profit }})</span>
+          {% elif profit < 0 %}
+            <span style="color: red; font-weight: bold;">Loss (₹{{ profit | abs }})</span>
+          {% else %}
+            <span style="color: gray; font-weight: bold;">Breakeven</span>
+          {% endif %}
+        {% else %}
+          <span style="color: gray;">N/A</span>
+        {% endif %}
+      </td>
+      <td>
+        <select name="quality" form="update-form-{{ crop.id }}">
+          <option value="High" {% if crop.quality == 'High' %}selected{% endif %}>High</option>
+          <option value="Medium" {% if crop.quality == 'Medium' %}selected{% endif %}>Medium</option>
+          <option value="Low" {% if crop.quality == 'Low' %}selected{% endif %}>Low</option>
+        </select>
+      </td>
+      <td>
+          <form action="{{ url_for('update_crop') }}" method="POST" id="update-form-{{ crop.id }}" style="display:inline;">
+            <input type="hidden" name="id" value="{{ crop.id }}">
+            <button type="submit">Update</button>
+          </form>
+          <form action="{{ url_for('delete_crop') }}" method="POST" style="">
+            <input type="hidden" name="id" value="{{ crop.id }}">
+            <button type="submit" style="background-color: red">Delete</button>
+          </form>
+      </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </table>
+</body>
+</html>

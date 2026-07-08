@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>registration page</title>
+    <style>
+        h2
+        {
+            color: black;
+            margin: 20px;
+            text-align: center;
+        }
+        div {
+            margin: 50px;
+            padding: 20px;
+            border: 2px solid black;
+        }
+        input[type=text],[type=number]
+        {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        input[type=submit]
+        {
+            background-color: green;
+            padding: 10px;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="login-box">
+<form action="{{url_for('register')}}" method="POST">
+<h2>Create Your Account</h2>
+    <label><b>Name:</b></label>
+    <input type="text" name="name"  placeholder="Enter your name" required>
+    <br><br>
+    <label><b>Phone No:</b></label>
+    <input type="number" name="phone" placeholder="Enter your mobile no">
+    <br><br>
+    <label><b>Address:</b></label>
+    <input type="text" name="address" placeholder="Enter your Address">
+    <br><br>
+    <label><b>Email-ID:</b></label>
+    <input type="text" name="email" placeholder="Enter your email-id" required>
+    <br><br>
+    <label><b>Password:</b></label>
+    <input type="password" name="password" placeholder="**********" required>
+    <br><br>
+    <input type="submit" name="submit" value="Register">
+    <br>
+    <a href="/login">Login now</a>
+</form>
+</div>
+</body>
+</html>

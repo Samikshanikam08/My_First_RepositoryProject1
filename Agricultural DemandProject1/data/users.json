@@ -1,0 +1,35 @@
+[
+  {
+    "name": "samiksha",
+    "email": "samu@gmail.com",
+    "password": "samu4445"
+  },
+  {
+    "name": "xyz",
+    "phone": "2473268974",
+    "address": "goa",
+    "email": "xyz@gmail.com",
+    "password": "987654"
+  },
+  {
+    "name": "samiksha",
+    "phone": "9270037192",
+    "address": "kolhapur",
+    "email": "samu@gmail.com",
+    "password": "4445"
+  },
+  {
+    "name": "payal",
+    "phone": "2473268974",
+    "address": "kolhapur",
+    "email": "payalnandrekar@gmail.co",
+    "password": "1008"
+  },
+  {
+    "name": "lmn",
+    "phone": "46558469586",
+    "address": "goa",
+    "email": "lmn@gmail.com",
+    "password": "0000"
+  }
+]
